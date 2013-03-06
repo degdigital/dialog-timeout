@@ -22,7 +22,7 @@
             "bindTo": $('body'),
             "timerContainer": "#logout-timer",
             "modalTemplate": $('<div id="logout-dialog"><p>It appears you are no longer using the website. For your safety and protection, you will be signed out of your account in less than two minutes. To continue using the website, click "Continue" below.</p><h3 id="logout-timer"></h3></div>'),
-            "logoutTime": 120,
+            "logoutTime": 60,
             "warningTime": 120
         };
 
@@ -32,13 +32,14 @@
 
             var logoutUrl = $(this).data('logout-url'),
                 eventType = 'mousemove.logout',
+                inputEventType = 'keydown.logout',
                 modalTimeout,
                 warningTimeout;
 
             function alertLogout() {
                 openModal();
                 clearLogoutTimer();
-                settings.bindTo.unbind(eventType);
+                unbindEvents();
             }
 
             function startLogoutTimer() {
@@ -52,6 +53,7 @@
             function resetTimer() {
                 clearLogoutTimer();
                 startLogoutTimer();
+                console.log('reset');
             }
 
             function logout() {
@@ -78,7 +80,7 @@
 
             function beforeClosingModal() {
                 clearInterval(warningTimeout);
-                settings.bindTo.on(eventType, resetTimer);
+                bindEvents();
             }
 
             function onModalContinue() {
@@ -104,7 +106,17 @@
                 return s;
             }
 
-            settings.bindTo.on(eventType, resetTimer).trigger(eventType);
+            function unbindEvents() {
+                settings.bindTo.unbind(eventType);
+                settings.bindTo.find(':text').unbind(inputEventType);
+            }
+
+            function bindEvents() {
+                settings.bindTo.on(eventType, resetTimer).trigger(eventType);
+                settings.bindTo.find(':text').on(inputEventType, resetTimer);
+            }
+
+            bindEvents();
         });
 
         return this;
