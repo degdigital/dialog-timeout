@@ -122,6 +122,4 @@
         return this;
     };
 
-    $('a.logout').logoutTimer();
-
 })(jQuery, window);
