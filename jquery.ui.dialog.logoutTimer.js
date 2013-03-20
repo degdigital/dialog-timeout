@@ -1,3 +1,10 @@
+/*!
+ * jQuery UI Dialog Logout Timer
+ * https://github.com/degdigital/dialog-timeout
+ * Copyright (c) 2013 DEG
+ * Version: 1.0 (03-06-2013)
+ */
+
 (function ($, window) {
     "use strict";
 
